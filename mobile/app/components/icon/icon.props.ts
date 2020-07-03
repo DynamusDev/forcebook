@@ -5,17 +5,18 @@ export interface IconProps {
   /**
    * Style overrides for the icon image
    */
-  style?: ImageStyle
 
   /**
    * Style overrides for the icon container
    */
 
-  containerStyle?: ViewStyle
-
   /**
    * The name of the icon
    */
 
-  icon?: IconTypes
+  name?: IconTypes | object | string;
+  resizeMode?: 'contain' | 'cover' | 'repeat' | 'stretch' | 'center';
+  width?: number;
+  height?: number;
+  style?: ImageStyle;
 }

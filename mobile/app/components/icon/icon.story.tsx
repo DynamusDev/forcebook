@@ -10,10 +10,7 @@ storiesOf("Icon", module)
   .add("Names", () => (
     <Story>
       <UseCase text="back" usage="The icon for going back">
-        <Icon icon="back" />
-      </UseCase>
-      <UseCase text="bullet" usage="The icon for a bullet point">
-        <Icon icon="bullet" />
+        <Icon name="voasp" style={{height:100, width:200}} />
       </UseCase>
     </Story>
   ))

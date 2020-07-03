@@ -3,21 +3,26 @@ import { View, TextInput, TextStyle, ViewStyle } from "react-native"
 import { color, spacing, typography } from "../../theme"
 import { translate } from "../../i18n"
 import { Text } from "../text/text"
+import PropTypes from 'prop-types';
 import { TextFieldProps } from "./text-field.props"
 import { mergeAll, flatten } from "ramda"
 
 // the base styling for the container
 const CONTAINER: ViewStyle = {
-  paddingVertical: spacing[3],
+  
 }
 
 // the base styling for the TextInput
 const INPUT: TextStyle = {
   fontFamily: typography.primary,
-  color: color.text,
-  minHeight: 44,
+  color: color.palette.lightGrey,
+  width: 280,
+  textAlign: 'center',
   fontSize: 18,
+  borderWidth: 1,
+  borderColor: color.palette.lightGrey,
   backgroundColor: color.palette.white,
+  borderRadius: 8
 }
 
 // currently we have no presets, but that changes quickly when you build your app.
@@ -38,6 +43,7 @@ export const TextField: Component<TextFieldProps> = props => {
     placeholder,
     labelTx,
     label,
+    hidden,
     preset = "default",
     style: styleOverride,
     inputStyle: inputStyleOverride,
@@ -53,15 +59,16 @@ export const TextField: Component<TextFieldProps> = props => {
 
   return (
     <View style={containerStyle}>
-      <Text preset="fieldLabel" tx={labelTx} text={label} />
-      <TextInput
-        placeholder={actualPlaceholder}
-        placeholderTextColor={color.palette.lighterGrey}
-        underlineColorAndroid={color.transparent}
-        {...rest}
-        style={inputStyle}
-        ref={forwardedRef}
-      />
+      {hidden===false ? (
+        <TextInput
+          placeholder={actualPlaceholder}
+          placeholderTextColor={color.palette.lighterGrey}
+          underlineColorAndroid={color.transparent}
+          {...rest}
+          style={inputStyle}
+          ref={forwardedRef}
+        />
+      ) : null}
     </View>
   )
 }

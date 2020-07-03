@@ -1,19 +1,17 @@
+/* eslint-disable react-native/no-single-element-style-arrays */
 import * as React from "react"
 import { View, Image, ImageStyle } from "react-native"
 import { IconProps } from "./icon.props"
 import { icons } from "./icons"
 
-const ROOT: ImageStyle = {
-  resizeMode: "contain",
-}
-
-export function Icon(props: IconProps) {
-  const { style: styleOverride, icon, containerStyle } = props
-  const style: ImageStyle = { ...ROOT, ...styleOverride }
-
+export function Icon({ style, name, resizeMode = 'contain', width, height }: IconProps) {
   return (
-    <View style={containerStyle}>
-      <Image style={style} source={icons[icon]} />
+    <View style={[{ width: width, height: height }]}>
+      <Image
+        source={icons[name]}
+        resizeMode={resizeMode}
+        style={style}
+      />
     </View>
   )
 }

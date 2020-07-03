@@ -1,7 +1,7 @@
 import React, { FunctionComponent as Component } from "react"
-import { View, ViewStyle, TextStyle } from "react-native"
+import { View, ViewStyle, TextStyle, Platform } from "react-native"
 import { HeaderProps } from "./header.props"
-import { Button } from "../button/button"
+import { HeaderButton } from "../headerButton/headerButton"
 import { Text } from "../text/text"
 import { Icon } from "../icon/icon"
 import { spacing } from "../../theme"
@@ -10,11 +10,29 @@ import { translate } from "../../i18n/"
 // static styles
 const ROOT: ViewStyle = {
   flexDirection: "row",
-  paddingHorizontal: spacing[4],
+  paddingHorizontal: 10,
   alignItems: "center",
-  paddingTop: spacing[5],
-  paddingBottom: spacing[5],
-  justifyContent: "flex-start",
+  height: 65,
+  width:"100%",
+  paddingTop: Platform.OS === 'ios' ? 30 : 0,
+  justifyContent: "center",
+}
+const LEFTVIEW: ViewStyle = {
+  justifyContent: "center",
+  width:"10%",
+  height: "auto"
+}
+const CENTERVIEW: ViewStyle = {
+  justifyContent: "center",
+  width:"80%",
+  height: "auto",
+  alignItems: "center"
+}
+const RIGHTVIEW: ViewStyle = {
+  justifyContent: "center",
+  width:"10%",
+  height: "auto",
+  alignItems: "flex-end"
 }
 const TITLE: TextStyle = { textAlign: "center" }
 const TITLE_MIDDLE: ViewStyle = { flex: 1, justifyContent: "center" }
@@ -31,6 +49,7 @@ export const Header: Component<HeaderProps> = props => {
     rightIcon,
     leftIcon,
     headerText,
+    background,
     headerTx,
     style,
     titleStyle,
@@ -38,24 +57,26 @@ export const Header: Component<HeaderProps> = props => {
   const header = headerText || (headerTx && translate(headerTx)) || ""
 
   return (
-    <View style={{ ...ROOT, ...style }}>
-      {leftIcon ? (
-        <Button preset="link" onPress={onLeftPress}>
-          <Icon icon={leftIcon} />
-        </Button>
-      ) : (
-        <View style={LEFT} />
-      )}
-      <View style={TITLE_MIDDLE}>
-        <Text style={{ ...TITLE, ...titleStyle }} text={header} />
+    <View style={{ ...ROOT, ...style, backgroundColor:background}}>
+      <View style={LEFTVIEW}>
+        {leftIcon ? (
+          <HeaderButton name={leftIcon} preset="link" onPress={onLeftPress}/>
+        ) : (
+          <View style={LEFT} />
+        )}
       </View>
-      {rightIcon ? (
-        <Button preset="link" onPress={onRightPress}>
-          <Icon icon={rightIcon} />
-        </Button>
-      ) : (
-        <View style={RIGHT} />
-      )}
+      <View style={CENTERVIEW}>
+        <View style={TITLE_MIDDLE}>
+          <Text style={{ ...TITLE, ...titleStyle }} text={header} />
+        </View>
+      </View>
+      <View style={RIGHTVIEW}>
+        {rightIcon ? (
+          <HeaderButton name={rightIcon} preset="link" onPress={onRightPress}/>
+        ) : (
+          <View style={RIGHT} />
+        )}
+      </View>
     </View>
   )
 }

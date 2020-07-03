@@ -2,6 +2,11 @@ import { ApisauceInstance, create, ApiResponse } from "apisauce"
 import { getGeneralApiProblem } from "./api-problem"
 import { ApiConfig, DEFAULT_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
+import axios from 'axios';
+
+export const api = axios.create({
+  baseURL: 'http://192.168.2.54:3333'
+})
 
 /**
  * Manages all requests to the API.

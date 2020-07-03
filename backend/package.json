@@ -1,7 +1,8 @@
 {
     "name": "backend",
     "version": "1.0.0",
-    "description": "backend is the ultimate backend solution",
+    "description": "backend to Forcebook App",
+    "author": "Alexandre Nascimento",
     "main": "src/server.js",
     "scripts": {
         "setup": "npm install && npm update",

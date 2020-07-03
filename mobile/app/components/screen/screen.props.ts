@@ -27,6 +27,7 @@ export interface ScreenProps {
    */
   statusBar?: "light-content" | "dark-content"
 
+  barBackground?: string
   /**
    * Should we not wrap in SafeAreaView? Defaults to false.
    */

@@ -18,7 +18,7 @@ storiesOf("Header", module)
     <Story>
       <UseCase noPad text="default" usage="The default usage">
         <View style={VIEWSTYLE}>
-          <Header headerTx="demoScreen.howTo" />
+          <Header headerTx="screen.emergência" titleStyle={{fontSize:20, fontWeight: 'bold'}} background={color.palette.Emergência}/>
         </View>
       </UseCase>
       <UseCase noPad text="leftIcon" usage="A left nav icon">
@@ -36,6 +36,18 @@ storiesOf("Header", module)
             headerTx="demoScreen.howTo"
             rightIcon="bullet"
             onRightPress={() => Alert.alert("right nav")}
+          />
+        </View>
+      </UseCase>
+      <UseCase noPad text="booth" usage="booth nav icon">
+        <View style={VIEWSTYLE}>
+          <Header
+            headerTx="demoScreen.howTo"
+            rightIcon="bullet"
+            leftIcon="bullet"
+            background={color.palette.Emergência}
+            onRightPress={() => Alert.alert("right nav")}
+            onLeftPress={() => Alert.alert("left nav")}
           />
         </View>
       </UseCase>

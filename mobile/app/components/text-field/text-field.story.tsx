@@ -48,9 +48,10 @@ storiesOf("TextField", module)
           {({ state, setState }) => (
             <TextField
               onChangeText={value => setState({ value })}
+              height={0}
               value={state.value}
-              placeholderTx="storybook.placeholder"
-              labelTx="storybook.field"
+              placeholderTx="screen.informeOPrefixo"
+              labelTx="screen.identificaçãoDaAeronave"
             />
           )}
         </State>

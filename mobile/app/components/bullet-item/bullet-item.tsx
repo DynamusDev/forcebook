@@ -2,7 +2,7 @@ import * as React from "react"
 import { View, ViewStyle, ImageStyle, TextStyle } from "react-native"
 import {Text} from "../text/text"
 import {Icon} from "../icon/icon"
-import { spacing, typography } from "../../theme"
+import { spacing } from "../../theme"
 
 const BULLET_ITEM: ViewStyle = {
   flexDirection: "row",
@@ -21,7 +21,7 @@ const BULLET: ImageStyle = {
 }
 const BULLET_TEXT: TextStyle = {
   flex: 1,
-  fontFamily: typography.primary,
+  fontFamily: "Montserrat-Regular",
   color: "#BAB6C8",
   fontSize: 15,
   lineHeight: 22,

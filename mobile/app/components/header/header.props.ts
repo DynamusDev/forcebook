@@ -32,6 +32,7 @@ export interface HeaderProps {
    */
   onRightPress?(): void
 
+  background?: ViewStyle | ViewStyle[] | String
   /**
    * Container style overrides.
    */

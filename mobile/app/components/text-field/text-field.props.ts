@@ -26,6 +26,8 @@ export interface TextFieldProps extends TextInputProps {
    */
   style?: ViewStyle | ViewStyle[]
 
+  hidden?: boolean | object
+
   /**
    * Optional style overrides for the input.
    */

@@ -1,19 +1,24 @@
 import { ViewStyle, TextStyle } from "react-native"
 import { color, spacing } from "../../theme"
+import { ButtonProps } from "./button.props"
 
 /**
  * All text will start off looking like this.
  */
 const BASE_VIEW: ViewStyle = {
-  paddingVertical: spacing[2],
-  paddingHorizontal: spacing[2],
-  borderRadius: 4,
-  justifyContent: "center",
-  alignItems: "center",
+  flex: 1,
+  padding: 5,
+  height: 140,
+  margin: 5,
+  width: '50%',
+  borderRadius: 8,
+  justifyContent: 'center',
+  alignItems: 'center',
 }
 
 const BASE_TEXT: TextStyle = {
   paddingHorizontal: spacing[3],
+
 }
 
 /**
@@ -21,25 +26,29 @@ const BASE_TEXT: TextStyle = {
  *
  * You want to customize these to whatever you need in your app.
  */
+
 export const viewPresets = {
+
   /**
    * A smaller piece of secondard information.
    */
-  primary: { ...BASE_VIEW, backgroundColor: color.palette.orange } as ViewStyle,
+
+  primary: { ...BASE_VIEW, backgroundColor: color.palette.Pista } as ViewStyle,
 
   /**
    * A button without extras.
    */
   link: {
     ...BASE_VIEW,
-    paddingHorizontal: 0,
-    paddingVertical: 0,
-    alignItems: "flex-start",
+    paddingVertical: spacing[2],
+    paddingHorizontal: spacing[2],
+    alignItems: "center",
+    justifyContent: "center",
   } as ViewStyle,
 }
 
 export const textPresets = {
-  primary: { ...BASE_TEXT, fontSize: 9, color: color.palette.white } as TextStyle,
+  primary: { ...BASE_TEXT, fontSize: 20, color: color.palette.white } as TextStyle,
   link: {
     ...BASE_TEXT,
     color: color.text,
@@ -51,4 +60,5 @@ export const textPresets = {
 /**
  * A list of preset names.
  */
+
 export type ButtonPresetNames = keyof typeof viewPresets

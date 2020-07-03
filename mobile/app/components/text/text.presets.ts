@@ -31,10 +31,13 @@ export const presets = {
    */
   header: { ...BASE, fontSize: 24, fontWeight: "bold" } as TextStyle,
 
+  content: { ...BASE, fontSize: 24, fontWeight: "bold", color: color.palette.lightGrey} as TextStyle,
+
   /**
    * Field labels that appear on forms above the inputs.
    */
   fieldLabel: { ...BASE, fontSize: 13, color: color.dim } as TextStyle,
+  fieldLabelTitle: { ...BASE, fontSize: 13, color: color.dim, fontWeight: "bold" } as TextStyle,
 
   /**
    * A smaller piece of secondard information.
