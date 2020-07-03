@@ -1,0 +1,45 @@
+{
+    "name": "backend",
+    "version": "1.0.0",
+    "description": "backend is the ultimate backend solution",
+    "main": "src/server.js",
+    "scripts": {
+        "setup": "npm install && npm update",
+        "start": "nodemon src/index.js"
+    },
+    "keywords": [
+        "express",
+        "backend",
+        "backend"
+    ],
+    "license": "MIT",
+    "dependencies": {
+        "cookie-parser": "^1.4.4",
+        "cors": "^2.8.5",
+        "express": "^4.17.1",
+        "express-custom-error": "^1.8.4",
+        "has-keys": "^0.1.0",
+        "helmet": "^3.21.2",
+        "http-status": "^1.3.2",
+        "knex": "^0.20.13",
+        "mandatoryenv": "^1.1.1",
+        "module-alias": "^2.2.2",
+        "morgan": "^1.9.1",
+        "mysql": "^2.18.1",
+        "mysqlm": "^2.0.3",
+        "nodemon": "^2.0.4",
+        "rotating-file-stream": "^1.4.6",
+        "ably": "^1.1.24",
+        "ably-react-native": "^1.1.1",
+        "body-parser": "^1.19.0",
+        "lime-transport-websocket": "^2.0.3",
+        "sharp": "^0.25.2"
+    },
+    "_moduleAliases": {
+        "@root": "src",
+        "@controllers": "src/controllers",
+        "@models": "src/models",
+        "@util": "src/util",
+        "@routes": "src/routes"
+    }
+}
