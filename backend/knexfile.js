@@ -3,13 +3,14 @@
 module.exports = {
 
   development: {
-    client: 'mysql',
+    client: 'sqlite3',
     connection: {
-      host : '191.252.221.197',
-      user : 'root',
-      password : 'Amasi@198',
-      database : 'ForceBook'
+      filename: './src/database/db.sqlite'
     },
+    migrations: {
+      directory: './src/database/migrations'
+    },
+    useNullAsDefault: true,
   },
 
   staging: {

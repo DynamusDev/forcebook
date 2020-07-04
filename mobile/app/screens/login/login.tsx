@@ -167,7 +167,7 @@ const ALERTVIEW: ViewStyle = {
   elevation: 5
 }
 
-export const WelcomeScreen: Component = observer(function WelcomeScreen() {
+export const Login: Component = observer(function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(true)
@@ -209,21 +209,14 @@ export const WelcomeScreen: Component = observer(function WelcomeScreen() {
       try {
         await AsyncStorage.setItem('id', id.toString())
       } catch (error) {
-        Alert.alert(error)
-        // Error saving data
-      }
-      try {
-        await AsyncStorage.setItem('id', id.toString())
-      } catch (error) {
-        Alert.alert(error)
         setSpinner(false)
         // Error saving data
       }
       navigation.navigate("demo")
       setSpinner(false)
-    } catch (err) {
-      Alert.alert('Erro!!!', message)
-      setMessage('No user found with this email/password')
+    } catch (error) {
+      setShowAlert(true)
+      setMessage(`Oh Oh!!! Nenhum usuário encontrado com esse email/senha... Por favor, verifique as informações e tente novamente!!!`)
       setSpinner(false)
     }
   }
@@ -231,8 +224,7 @@ export const WelcomeScreen: Component = observer(function WelcomeScreen() {
     if(password !== confirmUserPassword){
       setShowAlert(true)
       setMessage(`Oh Oh!!! As senhas não coincidem, por favor, revise-as e tente novamente`)
-    }
-    if (name == '') {
+    } else if (name == '') {
       setShowAlert(true)
       setMessage(`Por favor, preencha o campo de "Nome"para continuarmos`)
     } else if (title == '') {
@@ -245,6 +237,7 @@ export const WelcomeScreen: Component = observer(function WelcomeScreen() {
       setShowAlert(true)
       setMessage(`Por favor, informe um email para continuarmos com o registro`)
     } else {
+      setSpinner(true)
       try {
         const response = await api.post(`/users`, {
           name,
@@ -252,13 +245,13 @@ export const WelcomeScreen: Component = observer(function WelcomeScreen() {
           email,
           password
         })
-
+        setSpinner(false)
         setShowAlert(true)
         setModalVisible(false)
         setMessage(`Boas notícias!!! Seu cadastro foi finalizado!!! Faça login e aproveite o seu Guia Star Wars!!!`)
-      } catch (error) {
+      } catch (err) {
         setShowAlert(true)
-        setMessage(error)
+        setMessage(err)
       }
     }
   }
