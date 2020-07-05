@@ -100,8 +100,7 @@
 
 ## Rodando o Storybook
 
-No terminal dendro da raiz do mobile, rode `yarn run storybook`
-This starts up the storybook server.
+No terminal dendro da raiz do mobile, rode `yarn run storybook` isso vai startar o servidor storybook.
 
 Na raiz da pasta `mobile` no arquivo `index.js`, troque `SHOW_STORYBOOK` para `true` e recarregue o app.
 
