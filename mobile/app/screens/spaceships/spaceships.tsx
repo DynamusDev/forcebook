@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native"
 import { observer } from "mobx-react-lite"
 import { CommonButton, Header, Text, Screen, HeaderButton } from "../../components"
 import { color, spacing } from "../../theme"
+import AsyncStorage from "@react-native-community/async-storage"
 import { swapi } from "../../services/api"
 
 console.disableYellowBox = true;
