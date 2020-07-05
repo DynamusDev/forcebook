@@ -15,7 +15,6 @@ import Spinner from 'react-native-loading-spinner-overlay'
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
   backgroundColor: color.palette.black,
-  paddingHorizontal: spacing[4],
   height: '100%',
   alignItems: 'center',
   justifyContent: 'center',
@@ -24,7 +23,7 @@ const CONTAINER: ViewStyle = {
 const INPUT: TextStyle = {
   height: 45,
   fontFamily: 'Montserrat',
-  width: 280,
+  width: '70%',
   borderRadius: 8,
   borderWidth: 0.4,
   borderColor: color.palette.yellow,
@@ -36,15 +35,15 @@ const INPUT: TextStyle = {
 }
 const PASSWORD: TextStyle = {
   height: 45,
-  fontFamily: 'Montserrat',
   width: '80%',
+  fontFamily: 'Montserrat',
   borderRadius: 8,
   textAlign: 'center',
   fontSize: 22,
   color: color.palette.yellow
 }
 const PASS: ViewStyle = {
-  width: 280,
+  width: '70%',
   height: 45,
   flexDirection: 'row',
   borderRadius: 8,
@@ -98,15 +97,13 @@ const CENTEREDVIEW: ViewStyle = {
   flex: 1,
   justifyContent: "center",
   alignItems: "center",
-  marginTop: 2
 }
 const MODALVIEW: ViewStyle = {
-  margin: 20,
   backgroundColor: color.palette.black,
   borderRadius: 10,
   borderWidth: 0.6,
   borderColor: color.palette.yellow,
-  width: '85%',
+  width: '80%',
   height: '70%',
   alignItems: "center",
   justifyContent: "center",
@@ -121,8 +118,7 @@ const MODALVIEW: ViewStyle = {
 }
 const FORM: ViewStyle = {
   alignItems: "center",
-  justifyContent: "center",
-  width: '100%'
+  justifyContent: "center"
 }
 const PROP: TextStyle = {
   color: '#fff',
@@ -132,8 +128,9 @@ const PROP: TextStyle = {
   textAlign: 'center'
 }
 const BODY: ViewStyle = {
-  flex: 4,
+  flex: 1,
   alignItems: 'center',
+  justifyContent: "center",
   width: '100%'
 }
 const ALERTCENTERED: ViewStyle = {
@@ -150,7 +147,6 @@ const ALERTTEXT: TextStyle = {
   color: color.palette.white
 }
 const ALERTVIEW: ViewStyle = {
-  margin: 20,
   backgroundColor: color.palette.black,
   borderRadius: 20,
   borderWidth: 1,
@@ -180,6 +176,11 @@ export const Login: Component = observer(function Login() {
   const [title, setTitle] = useState('')
   const [modalVisible, setModalVisible] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
+  const [forgotPassword, setForgotPassword] = useState(false)
+  const [tokenScreen, setTokenScreen] = useState(false)
+  const [newPassword, setNewPassword] = useState('')
+  const [emailResetPassword, setEmailResetPassword] = useState('')
+  const [token, setToken] = useState('')
 
   useEffect(() => {
     navigate()
@@ -190,7 +191,7 @@ export const Login: Component = observer(function Login() {
       const user = await AsyncStorage.getItem('id')
       if (user != null) {
         // We have data!!
-        navigation.navigate("demo")
+        navigation.navigate("mytabs")
       }
     } catch (error) {
       // Error retrieving data
@@ -212,7 +213,7 @@ export const Login: Component = observer(function Login() {
         setSpinner(false)
         // Error saving data
       }
-      navigation.navigate("demo")
+      navigation.navigate("mytabs")
       setSpinner(false)
     } catch (error) {
       setShowAlert(true)
@@ -256,6 +257,57 @@ export const Login: Component = observer(function Login() {
     }
   }
 
+  async function handleForgotPassword(){
+    if(emailResetPassword === ''){
+      setShowAlert(true)
+      setMessage(`Oh Oh!!! Precisamos do seu email para lhe enviarmos o token para recuperação de senha`)
+    }else{
+      setNewPassword('')
+      setToken('')
+      setForgotPassword(false)
+      setTokenScreen(true)
+      const email = emailResetPassword
+      try {
+        const response = await api.put(`/sessions`, {
+          email
+        })
+        
+      } catch (err) {
+        setShowAlert(true)
+        setMessage("Oh oh!, não encontramos nenhum usuário com esse email, por favor, verifique o email e tente novamente")
+        setTokenScreen(false)
+      }
+    }
+  }
+
+  async function handleChangePassword(){
+    if(newPassword === ''){
+      setShowAlert(true)
+      setMessage(`Oh Oh!!! Informe uma nova senha para continuarmos`)
+    }else if(token === ''){
+      setShowAlert(true)
+      setMessage(`Oh Oh!!! Informe o token que lhe enviamos por email para continuarmos`)
+    } else {
+      setTokenScreen(false)
+      setSpinner(true)
+      const password = newPassword
+      try {
+        const response = await api.post(`/reset_password`, {
+          token,
+          password
+        })
+        setSpinner(false)
+        setShowAlert(true)
+        setMessage(`Sucesso!!! Sua senha foi alterada!!! Faça login e aproveite a sua jornada!!!`)
+      } catch (err) {
+        console.log(err)
+        setSpinner(false)
+        setShowAlert(true)
+        setMessage("Oh oh!, parece que este token não consta no nosso banco de dados, feche esta aba e tente novamente")
+      }
+    }
+  }
+
   function changeIcon() {
     setShowPassword(!showPassword)
     setIcon(icon === 'eye' ? 'eyeoff' : 'eye')
@@ -279,28 +331,27 @@ export const Login: Component = observer(function Login() {
           <View style={CENTEREDVIEW}>
             <View style={MODALVIEW}>
               <View style={{ width: '100%', alignItems: 'flex-end', height: '10%', paddingHorizontal:5 }}>
-                <HeaderButton name='close' onPress={()=>{setModalVisible(false)}}/>
+                <HeaderButton name='close' onPress={()=>{setModalVisible(false); setTokenScreen(false); setForgotPassword(false)}}/>
               </View>
               <View style={BODY}>
-                <SafeAreaView style={FORM}>
                   <ScrollView
                     showsVerticalScrollIndicator={false}
                   >
                     <Text style={PROP}>Nome</Text>
-                    <TextInput style={{...INPUT, width: '95%'}}
+                    <TextInput style={{...INPUT, width: 250}}
                       placeholder="Your Jedi Name"
                       value={name}
                       onChangeText={setName}
                     />
 
                     <Text style={PROP}>Título Jedi</Text>
-                    <TextInput style={{...INPUT, width: '95%'}}
+                    <TextInput style={{...INPUT, width: 250}}
                       value={title}
                       placeholder="Ex. Jedi Master"
                       onChangeText={setTitle}
                     />
-                    <Text style={PROP}>E-mail</Text>
-                    <TextInput style={{...INPUT, width: '95%'}}
+                    <Text style={PROP}>Email</Text>
+                    <TextInput style={{...INPUT, width: 250}}
                       keyboardType='email-address'
                       placeholder="yourname@email.com"
                       autoCapitalize="none"
@@ -309,7 +360,7 @@ export const Login: Component = observer(function Login() {
                     />
 
                     <Text style={PROP}>Senha</Text>
-                    <View style={{...PASS, width: '95%', marginBottom:0}}>
+                    <View style={{...PASS, marginBottom:0, width: 250}}>
                       <View style={SEPARATE} />
                       <TextInput style={PASSWORD}
                         value={password}
@@ -323,7 +374,7 @@ export const Login: Component = observer(function Login() {
                     </View>
 
                     <Text style={PROP}>Confirmar Senha</Text>
-                    <View style={{...PASS, width: '95%'}}>
+                    <View style={{...PASS, marginBottom:0, width: 250}}>
                       <View style={SEPARATE} />
                       <TextInput style={PASSWORD}
                         value={confirmUserPassword}
@@ -344,8 +395,88 @@ export const Login: Component = observer(function Login() {
                         <Text style={{ color: '#fff', fontSize: 15 }}>Confirmar</Text>
                       </TouchableOpacity>
                     </View>
+                    
                   </ScrollView>
-                </SafeAreaView>
+              </View>
+            </View>
+          </View>
+          {
+            Platform.OS === 'ios' && <KeyboardAvoidingView behavior='padding'/>
+          }
+        </Modal>
+        <Modal
+          visible={tokenScreen}
+          transparent={true}
+          animationType={"fade"}
+          onRequestClose={ () => { setModalVisible(false) } } >
+          <View style={CENTEREDVIEW}>
+            <View style={{...MODALVIEW, height: '60%', alignItems: 'center'}}>
+              <View style={{ width: '100%', alignItems: 'flex-end', height: '20%', paddingHorizontal:5 }}>
+                <HeaderButton name='close' onPress={()=>{setTokenScreen(false)}}/>
+              </View>
+              <View style={BODY}>
+                <ScrollView contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}>
+                  <Text style={PROP}>Informe o token que te foi enviado Email</Text>
+                  <TextInput style={{...INPUT, width: 250, marginBottom: 20}}
+                    autoCapitalize="none"
+                    placeholderTextColor={color.palette.yellow}
+                    placeholder='Token'
+                    value={token}
+                    onChangeText={setToken}
+                  />
+
+                  <Text style={PROP}>Informe a nova senha</Text>
+                  <View style={{...PASS, width: 250}}>
+                    <View style={SEPARATE} />
+                    <TextInput style={PASSWORD}
+                      autoCapitalize="none"
+                      placeholderTextColor={color.palette.yellow}
+                      multiline={false}
+                      value={newPassword}
+                      onChangeText={setNewPassword}
+                      placeholder='Nova Senha'
+                      secureTextEntry={showPassword} />
+                    <TouchableOpacity style={SEPARATE} onPress={changeIcon}>
+                      <Icon name={icon} style={{ height: 24, width: 24 }}/>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={FOOTERMODAL}>
+                    <CommonButton name="Alterar Senha" onPress={()=>{handleChangePassword()}} background={color.palette.orangeDarker} preset="primary" />
+                  </View>
+                </ScrollView>
+              </View>
+            </View>
+          </View>
+          {
+            Platform.OS === 'ios' && <KeyboardAvoidingView behavior='padding'/>
+          }
+        </Modal>
+        <Modal
+          visible={forgotPassword}
+          transparent={true}
+          animationType={"fade"}
+          onRequestClose={ () => { setModalVisible(false) } } >
+          <View style={CENTEREDVIEW}>
+            <View style={{...MODALVIEW, height: '40%'}}>
+              <View style={{ width: '100%', alignItems: 'flex-end', height: '20%', paddingHorizontal:5 }}>
+                <HeaderButton name='close' onPress={()=>{setForgotPassword(false)}}/>
+              </View>
+              <View style={BODY}>
+                  <ScrollView
+                    showsVerticalScrollIndicator={false}
+                  >
+                    <Text style={PROP}>Informe seu Email</Text>
+                    <TextInput style={{...INPUT, marginBottom: 20, width: 250}}
+                      keyboardType='email-address'
+                      placeholder="yourname@email.com"
+                      autoCapitalize="none"
+                      value={emailResetPassword}
+                      onChangeText={setEmailResetPassword}
+                    />
+                    <View style={FOOTERMODAL}>
+                      <CommonButton name="Enviar email" onPress={()=>{handleForgotPassword()}} background={color.palette.orangeDarker} preset="primary" />
+                    </View>
+                  </ScrollView>
               </View>
             </View>
           </View>
@@ -388,7 +519,7 @@ export const Login: Component = observer(function Login() {
       <SafeAreaView style={FOOTER}>
         <View style={FOOTER_CONTENT}>
           <View style={CREDITOS}>
-            <CommonButton name="Esqueci minha senha" textStyle={POWERED} style={{width:'auto'}} onPress={()=>{}} background={color.transparent} preset="primary" />
+            <CommonButton name="Esqueci minha senha" textStyle={POWERED} style={{width:'auto'}} onPress={()=>{setForgotPassword(true), setEmailResetPassword('')}} background={color.transparent} preset="primary" />
             <Text style={POWERED}>
               |
             </Text>

@@ -6,7 +6,9 @@ exports.up = function(knex) {
     table.string('title').notNullable();
     table.string('email').notNullable();
     table.string('password').notNullable();
-    table.longtext('image').nullable();
+    table.longtext('image', 255).nullable();
+    table.longtext('passwordResetToken', 255).nullable();
+    table.date('passwordResetExpires').nullable();
   })
 };
 

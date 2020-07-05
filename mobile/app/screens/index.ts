@@ -1,2 +1,4 @@
 export * from "./login/login"
-export * from "./demo-screen/demo-screen"
+export * from "./personagens/personagens"
+export * from "./planetas/planetas"
+export * from "./spaceships/spaceships"

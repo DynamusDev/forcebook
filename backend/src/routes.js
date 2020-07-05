@@ -7,6 +7,9 @@ const SessionController = require('./controllers/SessionController');
 const routes = express.Router();
 
 routes.post('/sessions', SessionController.create); //Criar Sessão(LOGIN)
+routes.put('/sessions', SessionController.forgotPassword) // Esqueci minha Senha
+
+routes.post('/reset_password', SessionController.resetPassword)
 
 
 routes.post('/users', UserController.create); // Criar usuário

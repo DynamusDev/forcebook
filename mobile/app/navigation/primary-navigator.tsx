@@ -7,7 +7,9 @@
 import React from "react"
   
 import { createNativeStackNavigator } from "react-native-screens/native-stack"
-import { Login, DemoScreen } from "../screens"
+import { Login, Personagens, Planetas, Spaceships } from "../screens"
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -23,12 +25,26 @@ import { Login, DemoScreen } from "../screens"
  */
 export type PrimaryParamList = {
   login: undefined
-  demo: undefined
+  personagens: undefined
+  mytabs: undefined,
+  planetas: undefined,
+  spaceships: undefined
 }
 
   
 // Documentation: https://github.com/software-mansion/react-native-screens/tree/master/native-stack
 const Stack = createNativeStackNavigator<PrimaryParamList>()
+const Tab = createBottomTabNavigator<PrimaryParamList>()
+
+function MyTabs() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="personagens" component={Personagens} />
+      <Tab.Screen name="planetas" component={Planetas} />
+      <Tab.Screen name="spaceships" component={Spaceships} />
+    </Tab.Navigator>
+  );
+}
 
 export function PrimaryNavigator() {
   return (
@@ -39,7 +55,7 @@ export function PrimaryNavigator() {
       }}
     >
       <Stack.Screen name="login" component={Login} />
-      <Stack.Screen name="demo" component={DemoScreen} />
+      <Stack.Screen name="mytabs" component={MyTabs} />
     </Stack.Navigator>
   )
 }
