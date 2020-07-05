@@ -5,7 +5,8 @@ export const icons = {
   eye: require("./eye.png"),
   eyeoff: require("./eyeoff.png"),
   profile: require("./profile.png"),
-  logo: require("./amarelovazio.png")
+  logo: require("./amarelovazio.png"),
+  logout: require("./logout.png")
 }
 
 export type IconTypes = keyof typeof icons

@@ -11,7 +11,7 @@ export interface ButtonProps extends TouchableOpacityProps {
   /**
    * The text to display if not using `tx` or nested components.
    */
-  name?: string
+  name?: string | object
 
   icon?: string
 

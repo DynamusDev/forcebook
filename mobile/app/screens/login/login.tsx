@@ -288,7 +288,6 @@ export const Login: Component = observer(function Login() {
       setShowAlert(true)
       setMessage(`Oh Oh!!! Informe o token que lhe enviamos por email para continuarmos`)
     } else {
-      setTokenScreen(false)
       setSpinner(true)
       const password = newPassword
       try {
@@ -298,12 +297,13 @@ export const Login: Component = observer(function Login() {
         })
         setSpinner(false)
         setShowAlert(true)
+        setTokenScreen(false)
         setMessage(`Sucesso!!! Sua senha foi alterada!!! Faça login e aproveite a sua jornada!!!`)
       } catch (err) {
         console.log(err)
         setSpinner(false)
         setShowAlert(true)
-        setMessage("Oh oh!, parece que este token não consta no nosso banco de dados, feche esta aba e tente novamente")
+        setMessage("Oh oh!, parece que este token não consta no nosso banco de dados, verifique o token e tente novamente")
       }
     }
   }

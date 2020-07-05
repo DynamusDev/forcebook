@@ -5,9 +5,9 @@
  * You'll likely spend most of your time in this file.
  */
 import React from "react"
-  
+import { color } from "../theme"
 import { createNativeStackNavigator } from "react-native-screens/native-stack"
-import { Login, Personagens, Planetas, Spaceships } from "../screens"
+import { Login, Personagens, Planetas, Starships, OrdemJedi } from "../screens"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 
@@ -25,23 +25,35 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
  */
 export type PrimaryParamList = {
   login: undefined
-  personagens: undefined
+  Personagens: undefined
   mytabs: undefined,
-  planetas: undefined,
-  spaceships: undefined
+  Planetas: undefined,
+  Starships: undefined,
+  Ordem_Jedi: undefined
 }
 
   
 // Documentation: https://github.com/software-mansion/react-native-screens/tree/master/native-stack
 const Stack = createNativeStackNavigator<PrimaryParamList>()
-const Tab = createBottomTabNavigator<PrimaryParamList>()
+const Tab = createBottomTabNavigator()
 
 function MyTabs() {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="personagens" component={Personagens} />
-      <Tab.Screen name="planetas" component={Planetas} />
-      <Tab.Screen name="spaceships" component={Spaceships} />
+    <Tab.Navigator
+      initialRouteName="Personagens" 
+      tabBarOptions={{
+        labelStyle: { fontSize: 11, color:'#fff' },
+        style: { backgroundColor: color.palette.black },
+        activeBackgroundColor: color.transparentChick,
+        activeTintColor: color.palette.yellow,
+        inactiveTintColor: color.palette.white,
+        tabStyle: {alignItems: 'center', justifyContent: 'center'}
+      }}
+      >
+      <Tab.Screen name="Personagens" component={Personagens} />
+      <Tab.Screen name="Planetas" component={Planetas} />
+      <Tab.Screen name="Starships" component={Starships} />
+      <Tab.Screen name="Ordem Jedi" component={OrdemJedi} />
     </Tab.Navigator>
   );
 }

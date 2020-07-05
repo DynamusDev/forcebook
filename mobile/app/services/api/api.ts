@@ -8,6 +8,10 @@ export const api = axios.create({
   baseURL: 'http://192.168.15.16:3333'
 })
 
+export const swapi = axios.create({
+  baseURL: 'https://swapi.dev/api/'
+})
+
 /**
  * Manages all requests to the API.
  */
