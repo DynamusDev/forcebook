@@ -192,10 +192,7 @@ export const Starships: Component = observer(function Starships() {
                   <View style={TIMMING}>
                     <View style={TIME}>
                       <Text style={{textAlign: 'center'}} preset="fieldLabelTitle" text="Comprimento" />
-                      <View style={{...TIMMING, height: 18}} >
-                        <Text style={{textAlign: 'center'}} preset="fieldLabel" text={starship.length} />
-                        <Text style={{textAlign: 'center'}} preset="fieldLabel" text=' cm' />
-                      </View>
+                      <Text style={{textAlign: 'center'}} preset="fieldLabel" text={starship.length} />
                     </View>
                     <View style={TIME}>
                       <Text style={{textAlign: 'center'}} preset="fieldLabelTitle" text="Velocidade Atmosférica Max " />
