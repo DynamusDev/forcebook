@@ -37,7 +37,7 @@
 
 >Ao finalizar a instalações das dependências através do seu editor de código preferido acesse `app/services/api/api.ts`
 
->Edite a linha 8 da seguinte forma: baseURL: `http://SEU_NUMERO_DE_IP:3333`
+>Edite a linha 8 da seguinte forma: 'baseURL: `http://SEU_NUMERO_DE_IP:3333`'
 
 >Salve o arquivo e rode o comando yarn run android
 
