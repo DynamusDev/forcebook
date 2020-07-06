@@ -21,7 +21,7 @@
 
 # Instalar dependências e rodar o backend
 
->cd forcebook/backend
+>cd `forcebook/backend`
 
 >yarn
 
@@ -31,13 +31,13 @@
 
 # Instalar dependências e rodar o mobile
 
->cd ../mobile
+>cd `../mobile`
 
 >yarn
 
->Ao finalizar a instalações das dependências através do seu editor de código preferido acesse app/services/api/api.ts
+>Ao finalizar a instalações das dependências através do seu editor de código preferido acesse `app/services/api/api.ts`
 
->Edite a linha 8 da seguinte forma: baseURL: 'http://SEU_NUMERO_DE_IP:3333'
+>Edite a linha 8 da seguinte forma: baseURL: `http://SEU_NUMERO_DE_IP:3333`
 
 >Salve o arquivo e rode o comando yarn run android
 
@@ -100,8 +100,8 @@
 
 ## Rodando o Storybook
 
-No terminal dendro da raiz do mobile, rode `yarn run storybook` isso vai startar o servidor storybook.
+>No terminal dendro da raiz do mobile, rode `yarn run storybook` isso vai startar o servidor storybook.
 
-Na raiz da pasta `mobile` no arquivo `index.js`, troque `SHOW_STORYBOOK` para `true` e recarregue o app.
+>Na raiz da pasta `mobile` no arquivo `index.js`, troque `SHOW_STORYBOOK` para `true` e recarregue o app.
 
-Se você utiliza o Visual Studio Code, existe uma extensão útil que facilita o carregamento de casos de uso do Storybook. Instale a extensão `React Native Storybook` by` Orta`, pressione `cmd + shift + P` e selecione" Reconectar Storybook ao VSCode ". Expanda a seção STORYBOOK na barra lateral para ver todos os casos de uso de componentes que possuem arquivos `.story.tsx` nos seus diretórios.
+>Se você utiliza o Visual Studio Code, existe uma extensão útil que facilita o carregamento de casos de uso do Storybook. Instale a extensão `React Native Storybook` by` Orta`, pressione `cmd + shift + P` e selecione" Reconectar Storybook ao VSCode ". Expanda a seção STORYBOOK na barra lateral para ver todos os casos de uso de componentes que possuem arquivos `.story.tsx` nos seus diretórios.
