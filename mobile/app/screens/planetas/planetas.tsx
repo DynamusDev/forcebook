@@ -1,13 +1,16 @@
-import React, { FunctionComponent as Component, useState, useEffect } from "react"
-import { FlatList, ScrollView, Platform, TextStyle, View, ViewStyle, Modal, YellowBox } from "react-native"
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable eqeqeq */
+/* eslint-disable @typescript-eslint/no-use-before-define */
+import AsyncStorage from "@react-native-community/async-storage"
 import { useNavigation } from "@react-navigation/native"
 import { observer } from "mobx-react-lite"
-import { CommonButton, Header, Text, Screen, HeaderButton } from "../../components"
-import { color, spacing } from "../../theme"
-import AsyncStorage from "@react-native-community/async-storage"
+import React, { FunctionComponent as Component, useEffect, useState } from "react"
+import { FlatList, Modal, ScrollView, TextStyle, View, ViewStyle } from "react-native"
+import { CommonButton, Header, HeaderButton, Screen, Text } from "../../components"
 import { swapi } from "../../services/api"
+import { color } from "../../theme"
 
-console.disableYellowBox = true;
+console.disableYellowBox = true
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
@@ -17,17 +20,17 @@ const CONTAINER: ViewStyle = {
   flex: 1
 }
 const PLANETSLIST: ViewStyle = {
-  flex:1,
+  flex: 1,
   maxHeight: '100%',
-  width:'100%'
+  width: '100%'
 }
 const BUTTON: ViewStyle = {
-  height:40,
+  height: 40,
   justifyContent: 'center',
-  width:'100%',
-  paddingHorizontal:28,
-  borderWidth:0.5,
-  borderColor:'#444'
+  width: '100%',
+  paddingHorizontal: 28,
+  borderWidth: 0.5,
+  borderColor: '#444'
 }
 const ALERTCENTERED: ViewStyle = {
   flex: 1,
@@ -123,7 +126,7 @@ export const Planetas: Component = observer(function Planetas() {
 
   useEffect(() => {
     loadPlanetas()
-  }, []);
+  }, [])
 
   async function loadPlaneta(planetas) {
     setPlaneta(planetas)
@@ -131,28 +134,27 @@ export const Planetas: Component = observer(function Planetas() {
   }
 
   async function loadPlanetas() {
-
-    if(loading) {
-      return;
+    if (loading) {
+      return
     }
 
-    if(total > 0 && planetas.length == total){
-      return;
+    if (total > 0 && planetas.length == total) {
+      return
     }
 
-    setLoading(true);
+    setLoading(true)
 
-    const response = await swapi.get(`planets/?page=${page}`);
+    const response = await swapi.get(`planets/?page=${page}`)
 
-    setPlanetas([...planetas, ...response.data.results]);
-    setTotal(response.data.count);
-    setPage(page + 1);
-    setLoading(false);
+    setPlanetas([...planetas, ...response.data.results])
+    setTotal(response.data.count)
+    setPage(page + 1)
+    setLoading(false)
   }
 
   function logout() {
-    AsyncStorage.clear();
-    navigation.navigate('login');
+    AsyncStorage.clear()
+    navigation.navigate('login')
   };
 
   return (
@@ -169,82 +171,82 @@ export const Planetas: Component = observer(function Planetas() {
           transparent={true}
           animationType={"slide"}
           onRequestClose={ () => { setModalVisible(false) } } >
-            <View style={ALERTCENTERED}>
-              <View style={ALERTVIEW}>
-                <View style={HEADERMODAL}>
-                  <View style={SEPARATE}/>
-                  <Text style={ALERTTEXT}>{planeta.name}</Text>
-                  <HeaderButton name='close' onPress={() => { setModalVisible(false) }} />
+          <View style={ALERTCENTERED}>
+            <View style={ALERTVIEW}>
+              <View style={HEADERMODAL}>
+                <View style={SEPARATE}/>
+                <Text style={ALERTTEXT}>{planeta.name}</Text>
+                <HeaderButton name='close' onPress={() => { setModalVisible(false) }} />
+              </View>
+              <ScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }} style={MODALBODY}>
+                <View style={TIMMING}>
+                  <View style={TIME}>
+                    <Text preset="fieldLabelTitle" text="Período de Rotação" />
+                    <View style={{ ...TIMMING, height: 18 }} >
+                      <Text preset="fieldLabel" text={planeta.rotation_period} />
+                      <Text preset="fieldLabel" text=' horas' />
+                    </View>
+                  </View>
+                  <View style={TIME}>
+                    <Text preset="fieldLabelTitle" text="Período Orbital" />
+                    <View style={{ ...TIMMING, height: 18 }} >
+                      <Text preset="fieldLabel" text={planeta.orbital_period} />
+                      <Text preset="fieldLabel" text=' dias' />
+                    </View>
+                  </View>
                 </View>
-                <ScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }} style={MODALBODY}>
-                  <View style={TIMMING}>
-                    <View style={TIME}>
-                      <Text preset="fieldLabelTitle" text="Período de Rotação" />
-                      <View style={{...TIMMING, height: 18}} >
-                        <Text preset="fieldLabel" text={planeta.rotation_period} />
-                        <Text preset="fieldLabel" text=' horas' />
-                      </View>
-                    </View>
-                    <View style={TIME}>
-                      <Text preset="fieldLabelTitle" text="Período Orbital" />
-                      <View style={{...TIMMING, height: 18}} >
-                        <Text preset="fieldLabel" text={planeta.orbital_period} />
-                        <Text preset="fieldLabel" text=' dias' />
-                      </View>
-                    </View>
+                <View style={TIMMING}>
+                  <View style={TIME}>
+                    <Text preset="fieldLabelTitle" text="Diâmetro" />
+                    <Text preset="fieldLabel" text={planeta.diameter} />
                   </View>
-                  <View style={TIMMING}>
-                    <View style={TIME}>
-                      <Text preset="fieldLabelTitle" text="Diâmetro" />
-                      <Text preset="fieldLabel" text={planeta.diameter} />
-                    </View>
-                    <View style={TIME}>
-                      <Text preset="fieldLabelTitle" text="Clima" />
-                      <Text preset="fieldLabel" text={planeta.climate} />
-                    </View>
+                  <View style={TIME}>
+                    <Text preset="fieldLabelTitle" text="Clima" />
+                    <Text preset="fieldLabel" text={planeta.climate} />
                   </View>
-                  <View style={TIMMING}>
-                    <View style={TIME}>
-                      <Text preset="fieldLabelTitle" text="Gravidade" />
-                      <Text preset="fieldLabel" text={planeta.gravity} />
-                    </View>
-                    <View style={TIME}>
-                      <Text preset="fieldLabelTitle" text="Terreno" />
-                      <Text preset="fieldLabel" text={planeta.terrain} />
-                    </View>
+                </View>
+                <View style={TIMMING}>
+                  <View style={TIME}>
+                    <Text preset="fieldLabelTitle" text="Gravidade" />
+                    <Text preset="fieldLabel" text={planeta.gravity} />
                   </View>
-                  <View style={TIMMING}>
-                    <View style={TIME}>
-                      <Text preset="fieldLabelTitle" text="População" />
-                      <Text preset="fieldLabel" text={planeta.population} />
-                    </View>
-                    <View style={TIME} />
+                  <View style={TIME}>
+                    <Text preset="fieldLabelTitle" text="Terreno" />
+                    <Text preset="fieldLabel" text={planeta.terrain} />
                   </View>
+                </View>
+                <View style={TIMMING}>
+                  <View style={TIME}>
+                    <Text preset="fieldLabelTitle" text="População" />
+                    <Text preset="fieldLabel" text={planeta.population} />
+                  </View>
+                  <View style={TIME} />
+                </View>
 
-                </ScrollView>
-              </View>
+              </ScrollView>
             </View>
-          </Modal>
+          </View>
+        </Modal>
         <FlatList
-            data={ planetas }
-            style={PLANETSLIST}
-            contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={planeta => String(planeta.id)}
-            onEndReached={loadPlanetas}
-            onEndReachedThreshold={0.1}
-            renderItem={({item:planetas}) => (
-              <View style={{alignItems: 'center'}}>
-                <CommonButton
-                  onPress={() => {loadPlaneta(planetas)}}
-                  style={BUTTON}
-                  textStyle={{color: color.palette.black}}
-                  name={planetas.name}
-                />
-                <Text style={{color: color.palette.black, fontStyle: 'italic'}}>Clique para ver mais informações</Text>
-              </View>
-            )}
-          />
+          data={ planetas }
+          style={PLANETSLIST}
+          contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={planeta => String(planeta.id)}
+          onEndReached={loadPlanetas}
+          onEndReachedThreshold={0.1}
+          renderItem={({ item: planetas }) => (
+            <View style={{ alignItems: 'center' }}>
+              <CommonButton
+                onPress={() => { loadPlaneta(planetas) }}
+                style={BUTTON}
+                textStyle={{ color: color.palette.black }}
+                name={planetas.name}
+              />
+              <Text style={{ color: color.palette.black, fontStyle: 'italic' }}>Clique para ver mais informações</Text>
+            </View>
+          )}
+        />
       </Screen>
     </View>
   )

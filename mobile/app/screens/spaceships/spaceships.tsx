@@ -1,13 +1,16 @@
-import React, { FunctionComponent as Component, useState, useEffect } from "react"
-import { FlatList, ScrollView, Platform, TextStyle, View, ViewStyle, Modal, YellowBox } from "react-native"
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable eqeqeq */
+/* eslint-disable @typescript-eslint/no-use-before-define */
+import AsyncStorage from "@react-native-community/async-storage"
 import { useNavigation } from "@react-navigation/native"
 import { observer } from "mobx-react-lite"
-import { CommonButton, Header, Text, Screen, HeaderButton } from "../../components"
-import { color, spacing } from "../../theme"
-import AsyncStorage from "@react-native-community/async-storage"
+import React, { FunctionComponent as Component, useEffect, useState } from "react"
+import { FlatList, Modal, ScrollView, TextStyle, View, ViewStyle } from "react-native"
+import { CommonButton, Header, HeaderButton, Screen, Text } from "../../components"
 import { swapi } from "../../services/api"
+import { color } from "../../theme"
 
-console.disableYellowBox = true;
+console.disableYellowBox = true
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
@@ -17,17 +20,17 @@ const CONTAINER: ViewStyle = {
   flex: 1
 }
 const PLANETSLIST: ViewStyle = {
-  flex:1,
+  flex: 1,
   maxHeight: '100%',
-  width:'100%'
+  width: '100%'
 }
 const BUTTON: ViewStyle = {
-  height:40,
+  height: 40,
   justifyContent: 'center',
-  width:'100%',
-  paddingHorizontal:5,
-  borderWidth:0.5,
-  borderColor:'#444'
+  width: '100%',
+  paddingHorizontal: 5,
+  borderWidth: 0.5,
+  borderColor: '#444'
 }
 const ALERTCENTERED: ViewStyle = {
   flex: 1,
@@ -123,7 +126,7 @@ export const Starships: Component = observer(function Starships() {
 
   useEffect(() => {
     loadStarships()
-  }, []);
+  }, [])
 
   async function loadStarship(starships) {
     setStarship(starships)
@@ -131,27 +134,26 @@ export const Starships: Component = observer(function Starships() {
   }
 
   async function loadStarships() {
-
-    if(loading) {
-      return;
+    if (loading) {
+      return
     }
 
-    if(total > 0 && starships.length == total){
-      return;
+    if (total > 0 && starships.length == total) {
+      return
     }
 
-    setLoading(true);
+    setLoading(true)
 
-    const response = await swapi.get(`starships/?page=${page}`);
+    const response = await swapi.get(`starships/?page=${page}`)
 
-    setStarships([...starships, ...response.data.results]);
-    setTotal(response.data.count);
-    setPage(page + 1);
-    setLoading(false);
+    setStarships([...starships, ...response.data.results])
+    setTotal(response.data.count)
+    setPage(page + 1)
+    setLoading(false)
   }
   function logout() {
-    AsyncStorage.clear();
-    navigation.navigate('login');
+    AsyncStorage.clear()
+    navigation.navigate('login')
   };
 
   return (
@@ -168,89 +170,89 @@ export const Starships: Component = observer(function Starships() {
           transparent={true}
           animationType={"slide"}
           onRequestClose={ () => { setModalVisible(false) } } >
-            <View style={ALERTCENTERED}>
-              <View style={ALERTVIEW}>
-                <View style={HEADERMODAL}>
-                  <View style={SEPARATE}/>
-                  <Text style={ALERTTEXT}>{starship.name}</Text>
-                  <HeaderButton name='close' onPress={() => { setModalVisible(false) }} />
+          <View style={ALERTCENTERED}>
+            <View style={ALERTVIEW}>
+              <View style={HEADERMODAL}>
+                <View style={SEPARATE}/>
+                <Text style={ALERTTEXT}>{starship.name}</Text>
+                <HeaderButton name='close' onPress={() => { setModalVisible(false) }} />
+              </View>
+              <ScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }} style={MODALBODY}>
+                <View style={TIMMING}>
+                  <View style={TIME}>
+                    <Text style={{ textAlign: 'center' }} preset="fieldLabelTitle" text="Fabricante" />
+                    <Text style={{ textAlign: 'center' }} preset="fieldLabel" text={starship.manufacturer} />
+                  </View>
+                  <View style={TIME}>
+                    <Text style={{ textAlign: 'center' }} preset="fieldLabelTitle" text="Valor" />
+                    <View style={{ ...TIMMING, height: 18 }} >
+                      <Text style={{ textAlign: 'center' }} preset="fieldLabel" text={starship.cost_in_credits} />
+                      <Text style={{ textAlign: 'center' }} preset="fieldLabel" text=' créditos' />
+                    </View>
+                  </View>
                 </View>
-                <ScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }} style={MODALBODY}>
-                  <View style={TIMMING}>
-                    <View style={TIME}>
-                      <Text style={{textAlign: 'center'}} preset="fieldLabelTitle" text="Fabricante" />
-                      <Text style={{textAlign: 'center'}} preset="fieldLabel" text={starship.manufacturer} />
-                    </View>
-                    <View style={TIME}>
-                      <Text style={{textAlign: 'center'}} preset="fieldLabelTitle" text="Valor" />
-                      <View style={{...TIMMING, height: 18}} >
-                        <Text style={{textAlign: 'center'}} preset="fieldLabel" text={starship.cost_in_credits} />
-                        <Text style={{textAlign: 'center'}} preset="fieldLabel" text=' créditos' />
-                      </View>
-                    </View>
+                <View style={TIMMING}>
+                  <View style={TIME}>
+                    <Text style={{ textAlign: 'center' }} preset="fieldLabelTitle" text="Comprimento" />
+                    <Text style={{ textAlign: 'center' }} preset="fieldLabel" text={starship.length} />
                   </View>
-                  <View style={TIMMING}>
-                    <View style={TIME}>
-                      <Text style={{textAlign: 'center'}} preset="fieldLabelTitle" text="Comprimento" />
-                      <Text style={{textAlign: 'center'}} preset="fieldLabel" text={starship.length} />
-                    </View>
-                    <View style={TIME}>
-                      <Text style={{textAlign: 'center'}} preset="fieldLabelTitle" text="Velocidade Atmosférica Max " />
-                      <Text style={{textAlign: 'center'}} preset="fieldLabel" text={starship.max_atmosphering_speed} />
-                    </View>
+                  <View style={TIME}>
+                    <Text style={{ textAlign: 'center' }} preset="fieldLabelTitle" text="Velocidade Atmosférica Max " />
+                    <Text style={{ textAlign: 'center' }} preset="fieldLabel" text={starship.max_atmosphering_speed} />
                   </View>
-                  <View style={TIMMING}>
-                    <View style={TIME}>
-                      <Text style={{textAlign: 'center'}} preset="fieldLabelTitle" text="Número de Passageiros" />
-                      <Text style={{textAlign: 'center'}} preset="fieldLabel" text={starship.passengers} />
-                    </View>
-                    <View style={TIME}>
-                      <Text style={{textAlign: 'center'}} preset="fieldLabelTitle" text="Capacidade de carga" />
-                      <Text style={{textAlign: 'center'}} preset="fieldLabel" text={starship.cargo_capacity} />
-                    </View>
+                </View>
+                <View style={TIMMING}>
+                  <View style={TIME}>
+                    <Text style={{ textAlign: 'center' }} preset="fieldLabelTitle" text="Número de Passageiros" />
+                    <Text style={{ textAlign: 'center' }} preset="fieldLabel" text={starship.passengers} />
                   </View>
-                  <View style={TIMMING}>
-                    <View style={TIME}>
-                      <Text style={{textAlign: 'center'}} preset="fieldLabelTitle" text="Classificação do Hyperdrive" />
-                      <Text style={{textAlign: 'center'}} preset="fieldLabel" text={starship.hyperdrive_rating} />
-                    </View>
-                    <View style={TIME}>
-                      <Text style={{textAlign: 'center'}} preset="fieldLabelTitle" text="MGLT" />
-                      <Text style={{textAlign: 'center'}} preset="fieldLabel" text={starship.MGLT} />
-                    </View>
+                  <View style={TIME}>
+                    <Text style={{ textAlign: 'center' }} preset="fieldLabelTitle" text="Capacidade de carga" />
+                    <Text style={{ textAlign: 'center' }} preset="fieldLabel" text={starship.cargo_capacity} />
                   </View>
-                  <View style={TIMMING}>
-                    <View style={TIME}>
-                      <Text style={{textAlign: 'center'}} preset="fieldLabelTitle" text="Classe de Espaçonave" />
-                      <Text style={{textAlign: 'center'}} preset="fieldLabel" text={starship.starship_class} />
-                    </View>
-                    <View style={TIME}/>
+                </View>
+                <View style={TIMMING}>
+                  <View style={TIME}>
+                    <Text style={{ textAlign: 'center' }} preset="fieldLabelTitle" text="Classificação do Hyperdrive" />
+                    <Text style={{ textAlign: 'center' }} preset="fieldLabel" text={starship.hyperdrive_rating} />
                   </View>
+                  <View style={TIME}>
+                    <Text style={{ textAlign: 'center' }} preset="fieldLabelTitle" text="MGLT" />
+                    <Text style={{ textAlign: 'center' }} preset="fieldLabel" text={starship.MGLT} />
+                  </View>
+                </View>
+                <View style={TIMMING}>
+                  <View style={TIME}>
+                    <Text style={{ textAlign: 'center' }} preset="fieldLabelTitle" text="Classe de Espaçonave" />
+                    <Text style={{ textAlign: 'center' }} preset="fieldLabel" text={starship.starship_class} />
+                  </View>
+                  <View style={TIME}/>
+                </View>
 
-                </ScrollView>
-              </View>
+              </ScrollView>
             </View>
-          </Modal>
+          </View>
+        </Modal>
         <FlatList
-            data={ starships }
-            style={PLANETSLIST}
-            contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={starship => String(starship.id)}
-            onEndReached={loadStarships}
-            onEndReachedThreshold={0.1}
-            renderItem={({item:starships}) => (
-              <View style={{alignItems: 'center'}}>
-                <CommonButton
-                  onPress={() => {loadStarship(starships)}}
-                  style={BUTTON}
-                  textStyle={{color: color.palette.black}}
-                  name={starships.name}
-                />
-                <Text style={{color: color.palette.black, fontStyle: 'italic'}}>Clique para ver mais informações</Text>
-              </View>
-            )}
-          />
+          data={ starships }
+          style={PLANETSLIST}
+          contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={starship => String(starship.id)}
+          onEndReached={loadStarships}
+          onEndReachedThreshold={0.1}
+          renderItem={({ item: starships }) => (
+            <View style={{ alignItems: 'center' }}>
+              <CommonButton
+                onPress={() => { loadStarship(starships) }}
+                style={BUTTON}
+                textStyle={{ color: color.palette.black }}
+                name={starships.name}
+              />
+              <Text style={{ color: color.palette.black, fontStyle: 'italic' }}>Clique para ver mais informações</Text>
+            </View>
+          )}
+        />
       </Screen>
     </View>
   )

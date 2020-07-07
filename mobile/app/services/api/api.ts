@@ -1,11 +1,11 @@
-import { ApisauceInstance, create, ApiResponse } from "apisauce"
-import { getGeneralApiProblem } from "./api-problem"
+import { ApiResponse, ApisauceInstance, create } from "apisauce"
+import axios from 'axios'
 import { ApiConfig, DEFAULT_API_CONFIG } from "./api-config"
+import { getGeneralApiProblem } from "./api-problem"
 import * as Types from "./api.types"
-import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: 'http://192.168.2.52:3333'
+  baseURL: 'http://192.168.15.16:3333'
 })
 
 export const swapi = axios.create({

@@ -1,14 +1,18 @@
-import React, { FunctionComponent as Component, useState, useEffect } from "react"
-import { FlatList, ScrollView, Platform, TextStyle, View, ViewStyle, Modal, YellowBox, TextInput, TouchableOpacity } from "react-native"
+/* eslint-disable react-native/no-color-literals */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable eqeqeq */
+/* eslint-disable @typescript-eslint/no-use-before-define */
+import AsyncStorage from "@react-native-community/async-storage"
 import { useNavigation } from "@react-navigation/native"
 import { observer } from "mobx-react-lite"
-import { CommonButton, Header, Text, Screen, HeaderButton, Icon } from "../../components"
-import { color, spacing } from "../../theme"
+import React, { FunctionComponent as Component, useEffect, useState } from "react"
+import { FlatList, KeyboardAvoidingView, Modal, Platform, ScrollView, TextInput, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
 import Spinner from 'react-native-loading-spinner-overlay'
-import AsyncStorage from "@react-native-community/async-storage"
+import { CommonButton, Header, HeaderButton, Icon, Screen, Text } from "../../components"
 import { api } from "../../services/api"
+import { color } from "../../theme"
 
-console.disableYellowBox = true;
+console.disableYellowBox = true
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
@@ -52,7 +56,7 @@ const PASS: ViewStyle = {
   marginBottom: 20,
   backgroundColor: color.transparentChick
 }
-const FOOTER: ViewStyle = { backgroundColor: color.palette.black, height: '20%',alignItems: 'center' }
+const FOOTER: ViewStyle = { backgroundColor: color.palette.black, height: '20%', alignItems: 'center' }
 const FOOTER_CONTENT: ViewStyle = {
   flexDirection: 'row',
   alignItems: 'center',
@@ -100,9 +104,9 @@ const BODY: ViewStyle = {
   width: '100%'
 }
 const PERSONAGENSLIST: ViewStyle = {
-  flex:1,
+  flex: 1,
   maxHeight: '100%',
-  width:'100%',
+  width: '100%',
 }
 const ALERTCENTERED: ViewStyle = {
   flex: 1,
@@ -227,16 +231,14 @@ export const OrdemJedi: Component = observer(function OrdemJedi() {
   useEffect(() => {
     loadUsuarios()
     retrieveData()
-  }, []);
-
-
+  }, [])
 
   async function retrieveData() {
     try {
-      const value = await AsyncStorage.getItem('id');
+      const value = await AsyncStorage.getItem('id')
       if (value != null) {
         // We have data!!
-        
+
         const response = await api.get(`users/${value}`)
         setId(response.data.id)
         setName(response.data.name)
@@ -254,8 +256,8 @@ export const OrdemJedi: Component = observer(function OrdemJedi() {
     setModalVisible(true)
   }
 
-  async function handleRegister(){
-    if(password !== confirmUserPassword){
+  async function handleRegister() {
+    if (password !== confirmUserPassword) {
       setShowAlert(true)
       setMessage(`Oh Oh!!! As senhas não coincidem, por favor, revise-as e tente novamente`)
     } else if (name == '') {
@@ -283,13 +285,7 @@ export const OrdemJedi: Component = observer(function OrdemJedi() {
         setShowAlert(true)
         setModalVisible(false)
         setMessage(`Boas notícias!!! Seu cadastro foi atualizado!!!`)
-        
-        const users = await api.get('users', {
-          params:1
-        });
-    
-        setUsuarios(users.data);
-        setTotal(users.headers['x-total-count']);
+        loadUsuarios()
         retrieveData()
       } catch (err) {
         setShowAlert(true)
@@ -299,25 +295,24 @@ export const OrdemJedi: Component = observer(function OrdemJedi() {
   }
 
   async function loadUsuarios() {
-
-    if(loading) {
-      return;
+    if (loading) {
+      return
     }
 
-    if(total > 0 && usuarios.length == total){
-      return;
+    if (total > 0 && usuarios.length == total) {
+      return
     }
 
-    setLoading(true);
+    setLoading(true)
 
     const response = await api.get('users', {
-      params:{page}
-    });
+      params: { page }
+    })
 
-    setUsuarios([...usuarios, ...response.data]);
-    setTotal(response.headers['x-total-count']);
-    setPage(page + 1);
-    setLoading(false);
+    setUsuarios([...usuarios, ...response.data])
+    setTotal(response.headers['x-total-count'])
+    setPage(page + 1)
+    setLoading(false)
   }
 
   function changeIcon() {
@@ -326,8 +321,8 @@ export const OrdemJedi: Component = observer(function OrdemJedi() {
   }
 
   function logout() {
-    AsyncStorage.clear();
-    navigation.navigate('login');
+    AsyncStorage.clear()
+    navigation.navigate('login')
   };
 
   return (
@@ -342,7 +337,7 @@ export const OrdemJedi: Component = observer(function OrdemJedi() {
       <Screen style={CONTAINER} preset='fixed' backgroundColor={color.transparent}>
         <Header headerText='Ordem Jedi'
           leftIcon='logout' onLeftPress={() => { logout() }}
-          rightIcon='profile' onRightPress={() => {setModalVisible(true)}}
+          rightIcon='profile' onRightPress={() => { setModalVisible(true) }}
           style={{ height: 55 }}
           titleStyle={{ fontSize: 20, fontWeight: 'bold' }}
           background={color.palette.black}
@@ -352,123 +347,125 @@ export const OrdemJedi: Component = observer(function OrdemJedi() {
           transparent={true}
           animationType={"fade"}
           onRequestClose={ () => { setShowAlert(false) } } >
-            <View style={ALERTCENTERED}>
-              <View style={ALERTVIEW}>
-                <Text style={ALERTTEXT}>{message}</Text>
+          <View style={ALERTCENTERED}>
+            <View style={ALERTVIEW}>
+              <Text style={ALERTTEXT}>{message}</Text>
 
-                <CommonButton
-                  name="Ok!"
-                  background={color.palette.orangeDarker}
-                  onPress={() => {
-                    setShowAlert(false)
-                  }}
-                />
-              </View>
+              <CommonButton
+                name="Ok!"
+                background={color.palette.orangeDarker}
+                onPress={() => {
+                  setShowAlert(false)
+                }}
+              />
             </View>
+          </View>
         </Modal>
         <Modal
           visible={modalVisible}
           transparent={true}
           animationType={"slide"}
           onRequestClose={ () => { setModalVisible(false) } } >
-            <View style={CENTEREDVIEW}>
-              <View style={MODALVIEW}>
-                <View style={HEADERMODAL}>
-                  <View style={SEPARATE}/>
-                  <Text style={ALERTTEXT}>Editar Informações</Text>
-                  <HeaderButton name='close' onPress={() => { setModalVisible(false) }} />
-                </View>
-                <View style={BODY}>
-                    <ScrollView
-                      contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}
-                      showsVerticalScrollIndicator={false}
+          <View style={CENTEREDVIEW}>
+            <View style={MODALVIEW}>
+              <View style={HEADERMODAL}>
+                <View style={SEPARATE}/>
+                <Text style={ALERTTEXT}>Editar Informações</Text>
+                <HeaderButton name='close' onPress={() => { setModalVisible(false) }} />
+              </View>
+              <View style={BODY}>
+                <ScrollView
+                  contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}
+                  showsVerticalScrollIndicator={false}
+                >
+                  <Text style={PROP}>Nome</Text>
+                  <TextInput style={{ ...INPUT, width: 250 }}
+                    placeholder="Your Jedi Name"
+                    value={name}
+                    onChangeText={setName}
+                  />
+
+                  <Text style={PROP}>Título Jedi</Text>
+                  <TextInput style={{ ...INPUT, width: 250 }}
+                    value={title}
+                    placeholder="Ex. Jedi Master"
+                    onChangeText={setTitle}
+                  />
+                  <Text style={PROP}>Email</Text>
+                  <TextInput style={{ ...INPUT, width: 250 }}
+                    keyboardType='email-address'
+                    placeholder="yourname@email.com"
+                    autoCapitalize="none"
+                    value={email}
+                    onChangeText={setEmail}
+                  />
+
+                  <Text style={PROP}>Senha</Text>
+                  <View style={{ ...PASS, marginBottom: 0, width: 250 }}>
+                    <View style={SEPARATE} />
+                    <TextInput style={PASSWORD}
+                      value={password}
+                      autoCapitalize="none"
+                      onChangeText={setPassword}
+                      secureTextEntry={showPassword}
+                    />
+                    <TouchableOpacity style={SEPARATE} onPress={changeIcon}>
+                      <Icon name={icon} style={{ height: 24, width: 24 }}/>
+                    </TouchableOpacity>
+                  </View>
+
+                  <Text style={PROP}>Confirmar Senha</Text>
+                  <View style={{ ...PASS, marginBottom: 0, width: 250 }}>
+                    <View style={SEPARATE} />
+                    <TextInput style={PASSWORD}
+                      value={confirmUserPassword}
+                      autoCapitalize="none"
+                      onChangeText={setConfirmUserPassword}
+                      secureTextEntry={showPassword}
+                    />
+                    <TouchableOpacity style={SEPARATE} onPress={changeIcon}>
+                      <Icon name={icon} style={{ height: 24, width: 24 }}/>
+                    </TouchableOpacity>
+                  </View>
+
+                  <View style={FOOTERMODAL}>
+                    <TouchableOpacity
+                      style={REGISTER}
+                      onPress={() => { handleRegister() }}
                     >
-                      <Text style={PROP}>Nome</Text>
-                      <TextInput style={{...INPUT, width: 250}}
-                        placeholder="Your Jedi Name"
-                        value={name}
-                        onChangeText={setName}
-                      />
+                      <Text style={{ color: '#fff', fontSize: 15 }}>Confirmar</Text>
+                    </TouchableOpacity>
+                  </View>
 
-                      <Text style={PROP}>Título Jedi</Text>
-                      <TextInput style={{...INPUT, width: 250}}
-                        value={title}
-                        placeholder="Ex. Jedi Master"
-                        onChangeText={setTitle}
-                      />
-                      <Text style={PROP}>Email</Text>
-                      <TextInput style={{...INPUT, width: 250}}
-                        keyboardType='email-address'
-                        placeholder="yourname@email.com"
-                        autoCapitalize="none"
-                        value={email}
-                        onChangeText={setEmail}
-                      />
-
-                      <Text style={PROP}>Senha</Text>
-                      <View style={{...PASS, marginBottom:0, width: 250}}>
-                        <View style={SEPARATE} />
-                        <TextInput style={PASSWORD}
-                          value={password}
-                          autoCapitalize="none"
-                          onChangeText={setPassword}
-                          secureTextEntry={showPassword}
-                        />
-                        <TouchableOpacity style={SEPARATE} onPress={changeIcon}>
-                          <Icon name={icon} style={{ height: 24, width: 24 }}/>
-                        </TouchableOpacity>
-                      </View>
-
-                      <Text style={PROP}>Confirmar Senha</Text>
-                      <View style={{...PASS, marginBottom:0, width: 250}}>
-                        <View style={SEPARATE} />
-                        <TextInput style={PASSWORD}
-                          value={confirmUserPassword}
-                          autoCapitalize="none"
-                          onChangeText={setConfirmUserPassword}
-                          secureTextEntry={showPassword}
-                        />
-                        <TouchableOpacity style={SEPARATE} onPress={changeIcon}>
-                          <Icon name={icon} style={{ height: 24, width: 24 }}/>
-                        </TouchableOpacity>
-                      </View>
-                      
-                      <View style={FOOTERMODAL}>
-                        <TouchableOpacity
-                          style={REGISTER}
-                          onPress={() => { handleRegister() }}
-                        >
-                          <Text style={{ color: '#fff', fontSize: 15 }}>Confirmar</Text>
-                        </TouchableOpacity>
-                      </View>
-                      
-                    </ScrollView>
-                </View>
+                </ScrollView>
               </View>
             </View>
-            {
-              Platform.OS === 'ios' && <KeyboardAvoidingView behavior='padding'/>
-            }
-          </Modal>
+          </View>
+          {
+            Platform.OS === 'ios' && <KeyboardAvoidingView behavior='padding'/>
+          }
+        </Modal>
         <FlatList
-            data={ usuarios }
-            style={PERSONAGENSLIST}
-            contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={usuario => String(usuario.id)}
-            onEndReached={loadUsuarios}
-            onEndReachedThreshold={0.1}
-            renderItem={({item:usuarios}) => (
-              <View style={{alignItems: 'center', 
-                            borderBottomWidth:0.5,
-                            padding: 10,
-                            borderBottomColor:'#444'}}>
-                <Text style={{color: color.palette.black, fontWeight: 'bold', fontSize: 18 }}>{usuarios.name}</Text>
-                <Text style={{color: color.palette.black, fontStyle: 'italic'}}>{usuarios.title}</Text>
-                <Text style={{color: color.palette.black, fontStyle: 'italic'}}>{usuarios.email}</Text>
-              </View>
-            )}
-          />
+          data={ usuarios }
+          style={PERSONAGENSLIST}
+          contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={usuario => String(usuario.id)}
+          onEndReached={loadUsuarios}
+          onEndReachedThreshold={0.1}
+          renderItem={({ item: usuarios }) => (
+            <View style={ {
+              alignItems: 'center',
+              borderBottomWidth: 0.5,
+              padding: 10,
+              borderBottomColor: '#444'
+            } }>
+              <Text style={{ color: color.palette.black, fontWeight: 'bold', fontSize: 18 }}>{usuarios.name}</Text>
+              <Text style={{ color: color.palette.black, fontStyle: 'italic' }}>{usuarios.title}</Text>
+              <Text style={{ color: color.palette.black, fontStyle: 'italic' }}>{usuarios.email}</Text>
+            </View>
+          )}
+        />
       </Screen>
     </View>
   )

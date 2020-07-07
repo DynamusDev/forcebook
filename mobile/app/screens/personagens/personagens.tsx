@@ -1,13 +1,16 @@
-import React, { FunctionComponent as Component, useState, useEffect } from "react"
-import { FlatList, ScrollView, Platform, TextStyle, View, ViewStyle, Modal, YellowBox } from "react-native"
+/* eslint-disable @typescript-eslint/no-use-before-define */
+/* eslint-disable eqeqeq */
+/* eslint-disable react-native/no-inline-styles */
+import AsyncStorage from "@react-native-community/async-storage"
 import { useNavigation } from "@react-navigation/native"
 import { observer } from "mobx-react-lite"
-import { CommonButton, Header, Text, Screen, HeaderButton } from "../../components"
-import { color, spacing } from "../../theme"
-import AsyncStorage from "@react-native-community/async-storage"
+import React, { FunctionComponent as Component, useEffect, useState } from "react"
+import { FlatList, Modal, ScrollView, TextStyle, View, ViewStyle } from "react-native"
+import { CommonButton, Header, HeaderButton, Screen, Text } from "../../components"
 import { swapi } from "../../services/api"
+import { color } from "../../theme"
 
-console.disableYellowBox = true;
+console.disableYellowBox = true
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
@@ -17,17 +20,17 @@ const CONTAINER: ViewStyle = {
   flex: 1
 }
 const PERSONAGENSLIST: ViewStyle = {
-  flex:1,
+  flex: 1,
   maxHeight: '100%',
-  width:'100%'
+  width: '100%'
 }
 const BUTTON: ViewStyle = {
-  height:40,
+  height: 40,
   justifyContent: 'center',
-  width:250,
-  paddingHorizontal:28,
-  borderWidth:0.5,
-  borderColor:'#444'
+  width: 250,
+  paddingHorizontal: 28,
+  borderWidth: 0.5,
+  borderColor: '#444'
 }
 const ALERTCENTERED: ViewStyle = {
   flex: 1,
@@ -123,7 +126,7 @@ export const Personagens: Component = observer(function Personagens() {
 
   useEffect(() => {
     loadPersonagens()
-  }, []);
+  }, [])
 
   async function loadPersonagem(personagens) {
     setPersonagem(personagens)
@@ -131,27 +134,26 @@ export const Personagens: Component = observer(function Personagens() {
   }
 
   async function loadPersonagens() {
-
-    if(loading) {
-      return;
+    if (loading) {
+      return
     }
 
-    if(total > 0 && personagens.length == total){
-      return;
+    if (total > 0 && personagens.length == total) {
+      return
     }
 
-    setLoading(true);
+    setLoading(true)
 
-    const response = await swapi.get(`people/?page=${page}`);
+    const response = await swapi.get(`people/?page=${page}`)
 
-    setPersonagens([...personagens, ...response.data.results]);
-    setTotal(response.data.count);
-    setPage(page + 1);
-    setLoading(false);
+    setPersonagens([...personagens, ...response.data.results])
+    setTotal(response.data.count)
+    setPage(page + 1)
+    setLoading(false)
   }
   function logout() {
-    AsyncStorage.clear();
-    navigation.navigate('login');
+    AsyncStorage.clear()
+    navigation.navigate('login')
   };
 
   return (
@@ -168,82 +170,82 @@ export const Personagens: Component = observer(function Personagens() {
           transparent={true}
           animationType={"slide"}
           onRequestClose={ () => { setModalVisible(false) } } >
-            <View style={ALERTCENTERED}>
-              <View style={ALERTVIEW}>
-                <View style={HEADERMODAL}>
-                  <View style={SEPARATE}/>
-                  <Text style={ALERTTEXT}>{personagem.name}</Text>
-                  <HeaderButton name='close' onPress={() => { setModalVisible(false) }} />
+          <View style={ALERTCENTERED}>
+            <View style={ALERTVIEW}>
+              <View style={HEADERMODAL}>
+                <View style={SEPARATE}/>
+                <Text style={ALERTTEXT}>{personagem.name}</Text>
+                <HeaderButton name='close' onPress={() => { setModalVisible(false) }} />
+              </View>
+              <ScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }} style={MODALBODY}>
+                <View style={TIMMING}>
+                  <View style={TIME}>
+                    <Text preset="fieldLabelTitle" text="Altura" />
+                    <View style={{ ...TIMMING, height: 18 }} >
+                      <Text preset="fieldLabel" text={personagem.height} />
+                      <Text preset="fieldLabel" text=' cm' />
+                    </View>
+                  </View>
+                  <View style={TIME}>
+                    <Text preset="fieldLabelTitle" text="Peso" />
+                    <View style={{ ...TIMMING, height: 18 }} >
+                      <Text preset="fieldLabel" text={personagem.mass} />
+                      <Text preset="fieldLabel" text=' kg'/>
+                    </View>
+                  </View>
                 </View>
-                <ScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }} style={MODALBODY}>
-                  <View style={TIMMING}>
-                    <View style={TIME}>
-                      <Text preset="fieldLabelTitle" text="Altura" />
-                      <View style={{...TIMMING, height: 18}} >
-                        <Text preset="fieldLabel" text={personagem.height} />
-                        <Text preset="fieldLabel" text=' cm' />
-                      </View>
-                    </View>
-                    <View style={TIME}>
-                      <Text preset="fieldLabelTitle" text="Peso" />
-                      <View style={{...TIMMING, height: 18}} >
-                        <Text preset="fieldLabel" text={personagem.mass} />
-                        <Text preset="fieldLabel" text=' kg'/>
-                      </View>
-                    </View>
+                <View style={TIMMING}>
+                  <View style={TIME}>
+                    <Text preset="fieldLabelTitle" text="Cor da Pele" />
+                    <Text preset="fieldLabel" text={personagem.skin_color} />
                   </View>
-                  <View style={TIMMING}>
-                    <View style={TIME}>
-                      <Text preset="fieldLabelTitle" text="Cor da Pele" />
-                      <Text preset="fieldLabel" text={personagem.skin_color} />
-                    </View>
-                    <View style={TIME}>
-                      <Text preset="fieldLabelTitle" text="Cor do Cabelo" />
-                      <Text preset="fieldLabel" text={personagem.hair_color} />
-                    </View>
+                  <View style={TIME}>
+                    <Text preset="fieldLabelTitle" text="Cor do Cabelo" />
+                    <Text preset="fieldLabel" text={personagem.hair_color} />
                   </View>
-                  <View style={TIMMING}>
-                    <View style={TIME}>
-                      <Text preset="fieldLabelTitle" text="Cor dos Olhos" />
-                      <Text preset="fieldLabel" text={personagem.eye_color} />
-                    </View>
-                    <View style={TIME}>
-                      <Text preset="fieldLabelTitle" text="Ano de Nascimento" />
-                      <Text preset="fieldLabel" text={personagem.birth_year} />
-                    </View>
+                </View>
+                <View style={TIMMING}>
+                  <View style={TIME}>
+                    <Text preset="fieldLabelTitle" text="Cor dos Olhos" />
+                    <Text preset="fieldLabel" text={personagem.eye_color} />
                   </View>
-                  <View style={TIMMING}>
-                    <View style={TIME}>
-                      <Text preset="fieldLabelTitle" text="Gênero" />
-                      <Text preset="fieldLabel" text={personagem.gender} />
-                    </View>
-                    <View style={TIME} />
+                  <View style={TIME}>
+                    <Text preset="fieldLabelTitle" text="Ano de Nascimento" />
+                    <Text preset="fieldLabel" text={personagem.birth_year} />
                   </View>
+                </View>
+                <View style={TIMMING}>
+                  <View style={TIME}>
+                    <Text preset="fieldLabelTitle" text="Gênero" />
+                    <Text preset="fieldLabel" text={personagem.gender} />
+                  </View>
+                  <View style={TIME} />
+                </View>
 
-                </ScrollView>
-              </View>
+              </ScrollView>
             </View>
-          </Modal>
+          </View>
+        </Modal>
         <FlatList
-            data={ personagens }
-            style={PERSONAGENSLIST}
-            contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={personagem => String(personagem.id)}
-            onEndReached={loadPersonagens}
-            onEndReachedThreshold={0.1}
-            renderItem={({item:personagens}) => (
-              <View style={{alignItems: 'center'}}>
-                <CommonButton
-                  onPress={() => {loadPersonagem(personagens)}}
-                  style={BUTTON}
-                  textStyle={{color: color.palette.black}}
-                  name={personagens.name}
-                />
-                <Text style={{color: color.palette.black, fontStyle: 'italic'}}>Clique para ver mais informações</Text>
-              </View>
-            )}
-          />
+          data={ personagens }
+          style={PERSONAGENSLIST}
+          contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={personagem => String(personagem.id)}
+          onEndReached={loadPersonagens}
+          onEndReachedThreshold={0.1}
+          renderItem={({ item: personagens }) => (
+            <View style={{ alignItems: 'center' }}>
+              <CommonButton
+                onPress={() => { loadPersonagem(personagens) }}
+                style={BUTTON}
+                textStyle={{ color: color.palette.black }}
+                name={personagens.name}
+              />
+              <Text style={{ color: color.palette.black, fontStyle: 'italic' }}>Clique para ver mais informações</Text>
+            </View>
+          )}
+        />
       </Screen>
     </View>
   )
