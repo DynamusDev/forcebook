@@ -416,7 +416,7 @@ export const Login: Component = observer(function Login() {
               </View>
               <View style={BODY}>
                 <ScrollView contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}>
-                  <Text style={PROP}>Informe o token que te foi enviado Email</Text>
+                  <Text style={PROP}>Informe o token que te foi enviado por Email</Text>
                   <TextInput style={{...INPUT, width: 250, marginBottom: 20}}
                     autoCapitalize="none"
                     placeholderTextColor={color.palette.yellow}
