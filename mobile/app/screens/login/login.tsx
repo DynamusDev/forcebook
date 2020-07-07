@@ -61,6 +61,12 @@ const SEPARATE: ViewStyle = {
   alignItems: 'flex-start',
   justifyContent: 'center'
 }
+const SEPARATEMODAL: ViewStyle = {
+  width: 32,
+  height: 45,
+  alignItems: 'flex-start',
+  justifyContent: 'center'
+}
 const FOOTER: ViewStyle = { backgroundColor: color.palette.black, height: '20%',alignItems: 'center' }
 const FOOTER_CONTENT: ViewStyle = {
   flexDirection: 'row',
@@ -115,6 +121,14 @@ const MODALVIEW: ViewStyle = {
   shadowOpacity: 0.25,
   shadowRadius: 3.84,
   elevation: 5
+}
+const HEADERMODAL: ViewStyle = {
+  flexDirection: 'row',
+  height: '10%',
+  width: '100%',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  paddingHorizontal: 5
 }
 const FORM: ViewStyle = {
   alignItems: "center",
@@ -408,11 +422,13 @@ export const Login: Component = observer(function Login() {
           visible={tokenScreen}
           transparent={true}
           animationType={"fade"}
-          onRequestClose={ () => { setModalVisible(false) } } >
+          onRequestClose={ () => { setTokenScreen(false) } } >
           <View style={CENTEREDVIEW}>
             <View style={{...MODALVIEW, height: '60%', alignItems: 'center'}}>
-              <View style={{ width: '100%', alignItems: 'flex-end', height: '20%', paddingHorizontal:5 }}>
-                <HeaderButton name='close' onPress={()=>{setTokenScreen(false)}}/>
+              <View style={HEADERMODAL}>
+                <View style={SEPARATEMODAL}/>
+                <Text style={{...ALERTTEXT, color: color.palette.yellow}}>Cadastrar nova senha</Text>
+                <HeaderButton name='close' onPress={() => { setTokenScreen(false) }} />
               </View>
               <View style={BODY}>
                 <ScrollView contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}>
