@@ -229,6 +229,8 @@ export const OrdemJedi: Component = observer(function OrdemJedi() {
     retrieveData()
   }, []);
 
+
+
   async function retrieveData() {
     try {
       const value = await AsyncStorage.getItem('id');
@@ -281,7 +283,13 @@ export const OrdemJedi: Component = observer(function OrdemJedi() {
         setShowAlert(true)
         setModalVisible(false)
         setMessage(`Boas notícias!!! Seu cadastro foi atualizado!!!`)
-        loadUsuarios()
+        
+        const users = await api.get('users', {
+          params:1
+        });
+    
+        setUsuarios(users.data);
+        setTotal(users.headers['x-total-count']);
         retrieveData()
       } catch (err) {
         setShowAlert(true)
