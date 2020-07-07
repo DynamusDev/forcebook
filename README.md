@@ -45,7 +45,7 @@
 
 >**Obs:** Certifique-se de que tenha algum emulador de Android aberto ou celular devidamente configurado antes de rodar o último comando.
 
-![](/mobile/assets/login.jpg)
+![](/mobile/assets/login.jpeg)
 
 ## Estrutura da Aplicação Mobile
 
